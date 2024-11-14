@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cows</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Cows</h1>
+    <form method="POST" action="/search_cows">
+        <label for="search_term">Search by name:</label><br>
+        <input type="text" id="search_term" name="search_term"><br>
+        <input type="submit" value="Search">
+    </form>
+    <button onclick="window.location.href='/total_cows'">Total Cows</button>
+    <button onclick="window.location.href='/cow_types'">View Cow Types</button>
+    <h2>Total Cows: {{ total_cows }}</h2>
+    <h2>Breed Distribution:</h2>
+    <canvas id="breedChart"></canvas>
+    <script>
+
+
+        const ctx = document.getElementById('breedChart').getContext('2d');
+        const breedChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: breedLabels,
+                datasets: [{
+                    data: breedData,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                }]
+            }
+        });
+    </script>
+    <h2>All Cows:</h2>
+    <ul>
+        {% for cow in cows %}
+            <li>{{ cow.name }} - {{ cow.breed }} - {{ cow.age }} years old - {{ cow.weight }} kg</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
